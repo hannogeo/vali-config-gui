@@ -12,12 +12,11 @@ A web-based GUI for generating configuration files for the **Vali GeoGuessr map 
 
 ## How to Use
 
-1.  Open `index.html` in your browser.
-2.  Search and select countries for your map.
-3.  Set the number of locations for each country in the "Location Distribution" section.
-4.  Apply filter presets or write custom expressions.
-5.  Click **Download Config JSON**.
-6.  Run Vali CLI with your downloaded file:
+1.  Search and select countries for your map.
+2.  Set the number of locations for each country in the "Location Distribution" section.
+3.  Apply filter presets or write custom expressions.
+4.  Click **Download Config JSON**.
+5.  Run Vali CLI with your downloaded file:
     ```bash
     vali generate --file your-config.json
     ```
