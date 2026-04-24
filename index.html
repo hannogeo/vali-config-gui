@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Vali Config Builder</title>
+    <meta name="description" content="A GUI for creating Vali GeoGuessr map generator configuration files." />
+  </head>
+  <body>
+    <header class="main-header animate-in" style="padding: 2rem 2rem 0; max-width: 1600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <h1 style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          Vali Config Builder
+        </h1>
+      </div>
+      <div id="total-count-badge" class="animate-in" style="animation-delay: 0.3s;">
+        Total Locations: <span id="total-count-display">0</span>
+      </div>
+    </header>
+
+    <div id="app" class="app-container">
+      <main class="config-builder animate-in" style="animation-delay: 0.1s;">
+        
+        <!-- Step 1: Countries -->
+        <section class="card" style="margin-bottom: 2rem;">
+          <h2 class="section-title">
+            <span style="background: var(--primary); color: white; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.75rem;">1</span>
+            Select Countries
+          </h2>
+          <div class="input-group">
+            <label class="label">Search Countries</label>
+            <input type="text" id="country-search" placeholder="Search by name or ISO code (e.g. Estonia, EE)..." />
+          </div>
+          <div id="country-list-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; margin-top: 1rem; max-height: 150px; overflow-y: auto; padding: 0.5rem; border: 1px solid var(--border); border-radius: 8px; background: rgba(0,0,0,0.2);">
+            <!-- Countries will be injected here -->
+          </div>
+        </section>
+
+        <!-- Step 2: Individual Counts -->
+        <section class="card" style="margin-bottom: 2rem;">
+          <h2 class="section-title">
+            <span style="background: var(--primary); color: white; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.75rem;">2</span>
+            Location Distribution
+          </h2>
+          <div id="selected-countries">
+            <!-- Selected countries with inputs will be injected here -->
+          </div>
+        </section>
+
+        <!-- Step 3: Strategy & Filters -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+          <section class="card">
+            <h2 class="section-title">
+               <span style="background: var(--primary); color: white; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.75rem;">3</span>
+              Distribution Strategy
+            </h2>
+            <div class="input-group">
+              <label class="label">Strategy Key</label>
+              <select id="strategy-key">
+                <option value="FixedCountByMaxMinDistance">FixedCountByMaxMinDistance</option>
+                <option value="MaxCountByFixedMinDistance">MaxCountByFixedMinDistance</option>
+                <option value="FixedCountByCoverageDensity">FixedCountByCoverageDensity</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label class="label">Min Distance (m)</label>
+              <input type="number" id="min-distance" value="200" />
+            </div>
+          </section>
+
+          <section class="card">
+            <h2 class="section-title">
+               <span style="background: var(--primary); color: white; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.75rem;">4</span>
+              Filters & Presets
+            </h2>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+              <button class="btn-secondary preset-btn" data-filter="Buildings200 eq 0 and Roads200 eq 1">Rural</button>
+              <button class="btn-secondary preset-btn" data-filter="Buildings25 gte 3 and Buildings100 gte 6">Urban</button>
+              <button class="btn-secondary preset-btn" data-filter="ClosestCoast lt 100">Coastal</button>
+              <button class="btn-secondary preset-btn btn-clear" data-filter="" style="margin-left: auto;">✕ Reset Filters</button>
+            </div>
+            <div class="input-group">
+              <label class="label">Global Filter Expression</label>
+              <textarea id="global-filter" rows="2" placeholder="Enter expression..."></textarea>
+            </div>
+          </section>
+        </div>
+
+        <!-- Step 5: Advanced -->
+        <section class="card">
+          <h2 class="section-title">
+             <span style="background: var(--primary); color: white; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.75rem;">5</span>
+            Advanced Settings
+          </h2>
+          <div class="form-grid">
+            <div class="input-group">
+              <label class="label">Pano Verification</label>
+              <select id="pano-strategy">
+                <option value="">None</option>
+                <option value="Newest">Newest</option>
+                <option value="Random">Random</option>
+                <option value="Oldest">Oldest</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label class="label">Output Pitch</label>
+              <input type="number" id="output-pitch" value="0" min="-90" max="90" />
+            </div>
+            <div class="input-group">
+              <label class="label">Output Zoom</label>
+              <input type="number" id="output-zoom" value="0" step="0.1" min="0" max="3.6" />
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="sidebar animate-in" style="animation-delay: 0.2s;">
+        <div class="card" style="height: 100%; display: flex; flex-direction: column;">
+          <h2 class="section-title">Live Preview</h2>
+          <pre id="json-preview" style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-size: 0.8rem; flex-grow: 1; overflow-y: auto; color: var(--secondary); border: 1px solid var(--border);"></pre>
+          <div style="margin-top: 1.5rem;">
+            <div id="filename-preview" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; font-family: monospace;"></div>
+            <button id="download-btn" class="btn-primary" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+              Download Config JSON
+            </button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="main-footer animate-in" style="animation-delay: 0.4s; padding: 4rem 2rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+      <p>
+        Vali Config Builder &bull; 
+        Credits to <a href="https://github.com/slashP" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: 600;">slashP</a> 
+        for <a href="https://github.com/slashP/Vali" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: 600;">Vali</a>
+      </p>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Local Dev
+node_modules/
+package-lock.json
+package.json
+tsconfig.json
+vite.config.js
+dist/
+.gemini/
