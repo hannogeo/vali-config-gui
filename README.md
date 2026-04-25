@@ -18,7 +18,7 @@ A web-based GUI for generating configuration files for the **Vali GeoGuessr map 
 4.  Click **Download Config JSON**.
 5.  Run Vali CLI with your downloaded file:
     ```bash
-    vali generate --file your-config.json
+    vali generate --file config.json
     ```
 
 ## Credits
