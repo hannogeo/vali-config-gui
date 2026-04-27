@@ -35,6 +35,14 @@ const outputZoom = document.getElementById('output-zoom');
 const jsonPreview = document.getElementById('json-preview');
 const filenamePreview = document.getElementById('filename-preview');
 const totalCountDisplay = document.getElementById('total-count-display');
+const downloadBtnBottom = document.getElementById('download-btn-bottom');
+const downloadBtnSidebar = document.getElementById('download-btn-sidebar');
+
+// Mutual exclusivity map for presets
+const PRESET_CONFLICTS = {
+  "Buildings200 eq 0 and Roads200 eq 1": ["Buildings25 gte 3 and Buildings100 gte 6"], // Rural conflicts with Urban
+  "Buildings25 gte 3 and Buildings100 gte 6": ["Buildings200 eq 0 and Roads200 eq 1"]  // Urban conflicts with Rural
+};
 
 function init() {
   renderCountryList("");
@@ -191,6 +199,15 @@ function updateConfig() {
   totalCountDisplay.textContent = total.toLocaleString();
   jsonPreview.textContent = JSON.stringify(config, null, 2);
   updateFilename(total);
+
+  // Disable download buttons if no countries selected
+  const isDisabled = codes.length === 0;
+  downloadBtnBottom.disabled = isDisabled;
+  downloadBtnSidebar.disabled = isDisabled;
+  downloadBtnBottom.style.opacity = isDisabled ? "0.5" : "1";
+  downloadBtnBottom.style.cursor = isDisabled ? "not-allowed" : "pointer";
+  downloadBtnSidebar.style.opacity = isDisabled ? "0.5" : "1";
+  downloadBtnSidebar.style.cursor = isDisabled ? "not-allowed" : "pointer";
 }
 
 function updateFilename(total) {
@@ -210,6 +227,10 @@ function updateFilename(total) {
 }
 
 function downloadConfig() {
+  if (selectedCountries.size === 0) {
+    alert("Please select at least one country before downloading.");
+    return;
+  }
   const total = Array.from(selectedCountries.values()).reduce((a, b) => a + b, 0);
   const filename = updateFilename(total);
   const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
@@ -238,8 +259,15 @@ function setupEventListeners() {
         activePresets.clear();
         globalFilter.value = "";
       } else {
-        if (activePresets.has(filter)) activePresets.delete(filter);
-        else activePresets.add(filter);
+        if (activePresets.has(filter)) {
+          activePresets.delete(filter);
+        } else {
+          // Check for conflicts
+          const conflicts = PRESET_CONFLICTS[filter] || [];
+          conflicts.forEach(conflict => activePresets.delete(conflict));
+          
+          activePresets.add(filter);
+        }
         globalFilter.value = Array.from(activePresets).join(" and ");
       }
       
@@ -265,8 +293,8 @@ function setupEventListeners() {
   outputZoom.oninput = updateConfig;
 
   // Download buttons
-  document.getElementById('download-btn-bottom').onclick = downloadConfig;
-  document.getElementById('download-btn-sidebar').onclick = downloadConfig;
+  downloadBtnBottom.onclick = downloadConfig;
+  downloadBtnSidebar.onclick = downloadConfig;
 
   // Preview Toggle
   const toggleBtn = document.getElementById('toggle-preview-btn');
