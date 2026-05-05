@@ -57,6 +57,7 @@ const PRESET_CONFLICTS = {
 function init() {
   renderCountryList("");
   renderSelectedCountries();
+  renderSubdivisionCountries();
   setupEventListeners();
   updateConfig();
 }
@@ -175,8 +176,9 @@ function renderSubdivisionCountries() {
   subdivisionsContainer.innerHTML = "";
   if (selectedCountries.size === 0) {
     subdivisionsContainer.innerHTML = `
-      <div style="text-align: center; padding: 2rem; color: var(--text-muted); border: 2px dashed var(--border); border-radius: 16px;">
-        <p style="font-size: 0.9rem;">Select countries first to manage their subdivisions.</p>
+      <div style="text-align: center; padding: 3rem; color: var(--text-muted); border: 2px dashed var(--border); border-radius: 16px;">
+        <p style="font-size: 1rem; font-weight: 500;">No countries selected yet.</p>
+        <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7;">Select countries in Step 1 to manage their regions here.</p>
       </div>
     `;
     return;
@@ -331,6 +333,26 @@ function updateConfig() {
   totalCountDisplay.textContent = total.toLocaleString();
   jsonPreview.textContent = JSON.stringify(config, null, 2);
   updateFilename(total);
+  updateDownloadButtonState();
+}
+
+function updateDownloadButtonState() {
+  const hasCountries = selectedCountries.size > 0;
+  const buttons = [downloadBtnBottom, downloadBtnSidebar];
+  
+  buttons.forEach(btn => {
+    if (!btn) return;
+    btn.disabled = !hasCountries;
+    if (!hasCountries) {
+      btn.style.opacity = "0.5";
+      btn.style.cursor = "not-allowed";
+      btn.style.pointerEvents = "none";
+    } else {
+      btn.style.opacity = "1";
+      btn.style.cursor = "pointer";
+      btn.style.pointerEvents = "auto";
+    }
+  });
 }
 
 function updateFilename(total) {
@@ -350,6 +372,10 @@ function updateFilename(total) {
 }
 
 function downloadConfig() {
+  if (selectedCountries.size === 0) {
+    alert("Please select at least one country before downloading.");
+    return;
+  }
   const total = Array.from(selectedCountries.values()).reduce((a, b) => a + b, 0);
   const filename = updateFilename(total);
   const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
