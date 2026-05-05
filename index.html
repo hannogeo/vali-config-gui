@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="icon" href="icon/favicon.ico">
     <title>Vali Config Builder</title>
     <meta name="description" content="A premium GUI for creating Vali GeoGuessr map generator configuration files." />
   </head>
@@ -22,7 +21,7 @@
           Preview JSON
         </button>
         <div id="total-count-badge" class="animate-in" style="animation-delay: 0.3s; padding: 0 1.5rem; height: 44px; display: flex; align-items: center; gap: 0.75rem; border-radius: 100px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);">
-          <span style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05rem; font-weight: 600;">Total Locations</span>
+          <span style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05rem; font-weight: 600;">Total</span>
           <span id="total-count-display" style="color: var(--secondary); font-weight: 800; font-size: 1rem;">0</span>
         </div>
       </div>
@@ -107,10 +106,22 @@
           </section>
         </div>
 
-        <!-- Step 5: Advanced -->
+        <!-- Step 5: Specific Subdivisions -->
         <section class="card" style="margin-bottom: 2.5rem;">
           <h2 class="section-title">
              <span class="step-num">5</span>
+            Subdivision Control
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Optional: Specify exact regions to ONLY generate locations in those areas. Leave empty to include all regions.</p>
+          <div id="subdivisions-container">
+            <!-- Selected countries will appear here to manage their subdivisions -->
+          </div>
+        </section>
+
+        <!-- Step 6: Advanced -->
+        <section class="card" style="margin-bottom: 2.5rem;">
+          <h2 class="section-title">
+             <span class="step-num">6</span>
             Advanced Settings
           </h2>
           <div class="form-grid">
@@ -143,6 +154,29 @@
         </div>
       </main>
 
+      <!-- Subdivisions Modal -->
+      <aside id="subdivisions-modal" class="sidebar hidden">
+        <div class="card" style="display: flex; flex-direction: column; max-height: 90vh;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 class="section-title" style="margin-bottom: 0;" id="subdivisions-modal-title">Select Subdivisions</h2>
+            <button id="close-subdivisions-btn" class="preset-btn" style="padding: 0.5rem; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          </div>
+          <div class="input-group">
+            <input type="text" id="subdivision-search" placeholder="Search subdivisions..." />
+          </div>
+          <div id="subdivisions-list-container" style="flex-grow: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; align-content: flex-start; padding-right: 0.5rem;">
+            <!-- Subdivisions will be injected here -->
+          </div>
+          <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+            <button id="clear-subdivisions-btn" class="btn-secondary preset-btn btn-clear">Clear All</button>
+            <button id="save-subdivisions-btn" class="btn-primary" style="padding: 0.75rem 1.5rem;">Save & Close</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Preview Modal -->
       <aside id="sidebar" class="sidebar hidden">
         <div class="card" style="display: flex; flex-direction: column;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
@@ -166,8 +200,8 @@
     <footer class="main-footer animate-in" style="animation-delay: 0.4s; padding: 5rem 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
       <p>
         Vali Config Builder &bull; 
-        Credits to <a href="https://github.com/slashP" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: 600;">slashP</a> 
-        for <a href="https://github.com/slashP/Vali" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: 600;">Vali</a>
+        A companion for <a href="https://github.com/slashP/Vali" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: 600;">Vali</a> 
+        by <a href="https://github.com/slashP" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: 600;">slashP</a>
       </p>
     </footer>
 
