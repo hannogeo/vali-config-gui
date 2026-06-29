@@ -42,7 +42,6 @@ export const COUNTRIES = [
   { name: "Greenland", code: "GL" },
   { name: "Guam", code: "GU" },
   { name: "Guatemala", code: "GT" },
-  { name: "Guernsey", code: "GG" },
   { name: "Hong Kong", code: "HK" },
   { name: "Hungary", code: "HU" },
   { name: "Iceland", code: "IS" },
