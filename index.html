@@ -6,70 +6,68 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="icon/favicon.ico"/>
     <title>Vali Config Builder</title>
-    <meta name="description" content="A premium GUI for creating Vali GeoGuessr map generator configuration files." />
+    <meta name="description" content="A GUI for creating Vali GeoGuessr map generator configuration files." />
   </head>
   <body>
-    <header class="main-header animate-in" style="padding: 3rem 2rem; max-width: 1700px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-end;">
-      <div>
-        <h1 style="font-size: 3rem; font-weight: 800; letter-spacing: -0.05rem; background: linear-gradient(135deg, var(--text-main), #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-          Vali Config Builder
-        </h1>
-        <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 0.5rem; font-weight: 400;">Easily create configuration files for the Vali map generator.</p>
-      </div>
-      <div style="display: flex; gap: 1rem; align-items: center;">
-        <button id="toggle-preview-btn" class="preset-btn" style="padding: 0.75rem 1.5rem; font-size: 0.85rem; border-radius: 100px; height: 44px; display: flex; align-items: center; gap: 0.5rem; border: 1px solid var(--border);">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-          Preview JSON
-        </button>
-        <div id="total-count-badge" class="animate-in" style="animation-delay: 0.3s; padding: 0 1.5rem; height: 44px; display: flex; align-items: center; gap: 0.75rem; border-radius: 100px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);">
-          <span style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05rem; font-weight: 600;">Total</span>
-          <span id="total-count-display" style="color: var(--secondary); font-weight: 800; font-size: 1rem;">0</span>
+    <header class="main-header">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <h1>Vali Config Builder</h1>
+        <div id="total-count-badge">
+          <span>Total Locations</span>
+          <span id="total-count-display">0</span>
         </div>
       </div>
+      <button id="toggle-preview-btn" class="preset-btn" style="display: flex; align-items: center; gap: 0.4rem;">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+        Preview JSON
+      </button>
     </header>
 
     <div id="app" class="app-container">
-      <main class="config-builder animate-in" style="animation-delay: 0.1s;">
-        
-        <!-- Step 1: Countries -->
-        <section class="card" style="margin-bottom: 2.5rem;">
-          <h2 class="section-title">
-            <span class="step-num">1</span>
+      <main class="config-builder">
+
+        <section class="card" style="border-left: 3px solid #a78bfa; margin-bottom: 1.25rem;">
+          <h2 class="section-title" style="margin-bottom: 0.75rem;">
+            <svg width="16" height="16" fill="#a78bfa" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
             Select Countries
           </h2>
           <div class="input-group">
-            <label class="label">Quick Search</label>
+            <label class="label">Search</label>
             <div style="position: relative;">
-              <input type="text" id="country-search" placeholder="Type country name or ISO code (e.g. Estonia, EE)..." />
-              <div style="position: absolute; right: 1.25rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none;">
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              <input type="text" id="country-search" placeholder="Name or ISO code (e.g. Estonia, EE)..." />
+              <div style="position: absolute; right: 0.85rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none;">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
               </div>
             </div>
           </div>
-          <div id="country-list-container">
-            <!-- Countries will be injected here -->
-          </div>
+          <div id="country-list-container"></div>
         </section>
 
-        <!-- Step 2: Individual Counts -->
-        <section class="card" style="margin-bottom: 2.5rem;">
+        <section class="card" style="border-left: 3px solid #60a5fa; margin-bottom: 1.25rem;">
           <h2 class="section-title">
-            <span class="step-num">2</span>
+            <svg width="16" height="16" fill="#60a5fa" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
             Location Distribution
           </h2>
-          <div id="selected-countries">
-            <!-- Selected countries with inputs will be injected here -->
-          </div>
+          <div id="selected-countries"></div>
         </section>
 
-        <!-- Step 3 & 4 Grid -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-bottom: 2.5rem;">
-          <section class="card">
-            <h2 class="section-title">
-               <span class="step-num">3</span>
-              Strategy
-            </h2>
-            <div class="input-group">
+        <section class="card" style="border-left: 3px solid #fbbf24; margin-bottom: 1.25rem;">
+          <h2 class="section-title">
+            <svg width="16" height="16" fill="#fbbf24" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
+            Subdivision Control
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.75rem;">Optional: restrict generation to specific regions within a country.</p>
+          <div id="subdivisions-container"></div>
+        </section>
+
+        <section class="card" style="border-left: 3px solid #34d399; margin-bottom: 1.25rem;">
+          <h2 class="section-title" style="margin-bottom: 1.25rem;">
+            <svg width="16" height="16" fill="#34d399" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
+            Generation Settings
+          </h2>
+
+          <div class="settings-row">
+            <div class="input-group" style="flex: 2 1 200px;">
               <label class="label">Strategy Key</label>
               <select id="strategy-key">
                 <option value="FixedCountByMaxMinDistance">FixedCountByMaxMinDistance</option>
@@ -79,53 +77,8 @@
             </div>
             <div class="input-group">
               <label class="label">Min Distance (m)</label>
-              <input type="number" id="min-distance" value="50" />
+              <input type="number" id="min-distance" value="50" min="25" />
             </div>
-          </section>
-
-          <section class="card">
-            <h2 class="section-title">
-               <span class="step-num">4</span>
-              Filters
-            </h2>
-            <div class="input-group">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                <label class="label" style="margin-bottom: 0;">Presets</label>
-                <button class="btn-secondary preset-btn btn-clear" data-filter="">✕ Reset</button>
-              </div>
-              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-                <button class="btn-secondary preset-btn" data-filter="Buildings200 eq 0 and Roads200 eq 1">Rural</button>
-                <button id="urban-preset" class="btn-secondary preset-btn" data-filter="Buildings25 gte 3 and Buildings100 gte 6">Urban</button>
-                <button class="btn-secondary preset-btn" data-filter="ClosestCoast lt 100">Coastal</button>
-                <button class="btn-secondary preset-btn" data-filter="Roads0 gt 1">Intersections</button>
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="label">Filter Expression</label>
-              <textarea id="global-filter" rows="2" placeholder="e.g. ClosestCoast lt 100"></textarea>
-            </div>
-          </section>
-        </div>
-
-        <!-- Step 5: Specific Subdivisions -->
-        <section class="card" style="margin-bottom: 2.5rem;">
-          <h2 class="section-title">
-             <span class="step-num">5</span>
-            Subdivision Control
-          </h2>
-          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Optional: Specify exact regions to only generate locations in those areas. Leave empty to include all regions.</p>
-          <div id="subdivisions-container">
-            <!-- Selected countries will appear here to manage their subdivisions -->
-          </div>
-        </section>
-
-        <!-- Step 6: Advanced -->
-        <section class="card" style="margin-bottom: 2.5rem;">
-          <h2 class="section-title">
-             <span class="step-num">6</span>
-            Advanced Settings
-          </h2>
-          <div class="form-grid">
             <div class="input-group">
               <label class="label">Pano Verification</label>
               <select id="pano-strategy">
@@ -136,61 +89,70 @@
               </select>
             </div>
             <div class="input-group">
-              <label class="label">Output Pitch</label>
+              <label class="label">Pitch</label>
               <input type="number" id="output-pitch" value="0" min="-90" max="90" />
             </div>
             <div class="input-group">
-              <label class="label">Output Zoom</label>
+              <label class="label">Zoom</label>
               <input type="number" id="output-zoom" value="0" step="0.1" min="0" max="3.6" />
             </div>
           </div>
+
+          <div class="input-group" style="margin-bottom: 0;">
+            <label class="label">Filter Expression</label>
+            <textarea id="global-filter" rows="3" placeholder="e.g. ClosestCoast lt 100" style="resize: none;"></textarea>
+          </div>
+
+          <div style="display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center; margin-top: 0.75rem;">
+            <span style="font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-right: 0.25rem;">Presets</span>
+            <button class="preset-btn" data-filter="Buildings200 eq 0 and Roads200 eq 1">Rural</button>
+            <button class="preset-btn" data-filter="Buildings25 gte 3 and Buildings100 gte 6">Urban</button>
+            <button class="preset-btn" data-filter="ClosestCoast lt 100">Coastal</button>
+            <button class="preset-btn" data-filter="Roads0 gt 1">Intersections</button>
+            <button class="preset-btn" data-filter="" style="background: rgba(244, 63, 94, 0.1); color: #f43f5e; border-color: rgba(244, 63, 94, 0.2);">Reset</button>
+          </div>
         </section>
 
-        <!-- Final Download -->
-        <div class="animate-in" style="animation-delay: 0.2s; display: flex; justify-content: center; margin-top: 2rem;">
-          <button id="download-btn-bottom" class="btn-primary" style="padding: 1rem 3rem; font-size: 1rem; border-radius: 14px; display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+          <button id="download-btn-bottom" class="btn-primary" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.8rem 2rem; font-size: 0.95rem;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
             Download Config JSON
           </button>
         </div>
       </main>
 
-      <!-- Subdivisions Modal -->
       <aside id="subdivisions-modal" class="sidebar hidden">
-        <div class="card" style="display: flex; flex-direction: column; max-height: 90vh;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
             <h2 class="section-title" style="margin-bottom: 0;" id="subdivisions-modal-title">Select Subdivisions</h2>
-            <button id="close-subdivisions-btn" class="preset-btn" style="padding: 0.5rem; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
-              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
+            <button id="close-subdivisions-btn" class="preset-btn" style="padding: 0.4rem; border-radius: 6px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
           </div>
           <div class="input-group">
             <input type="text" id="subdivision-search" placeholder="Search subdivisions..." />
           </div>
-          <div id="subdivisions-list-container" style="flex-grow: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; align-content: flex-start; padding-right: 0.5rem;">
-            <!-- Subdivisions will be injected here -->
-          </div>
-          <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
-            <button id="clear-subdivisions-btn" class="btn-secondary preset-btn btn-clear">Clear All</button>
-            <button id="save-subdivisions-btn" class="btn-primary" style="padding: 0.75rem 1.5rem;">Save & Close</button>
+          <div id="subdivisions-list-container" style="flex-grow: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.4rem; align-content: flex-start; max-height: 50vh; padding-right: 0.4rem;"></div>
+          <div style="margin-top: 0.75rem; display: flex; justify-content: flex-end; gap: 0.5rem; border-top: 1px solid var(--border); padding-top: 0.75rem;">
+            <button id="clear-subdivisions-btn" class="preset-btn btn-clear">Clear All</button>
+            <button id="save-subdivisions-btn" class="btn-primary" style="padding: 0.4rem 1rem;">Save</button>
           </div>
         </div>
       </aside>
 
-      <!-- Preview Modal -->
       <aside id="sidebar" class="sidebar hidden">
-        <div class="card" style="display: flex; flex-direction: column;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
             <h2 class="section-title" style="margin-bottom: 0;">Config Preview</h2>
-            <button id="close-preview-btn" class="preset-btn" style="padding: 0.5rem; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
-              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
+            <button id="close-preview-btn" class="preset-btn" style="padding: 0.4rem; border-radius: 6px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
           </div>
-          <pre id="json-preview" style="flex-grow: 1; overflow-y: auto;"></pre>
-          <div style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center;">
-            <div id="filename-preview" style="font-size: 0.8rem; color: var(--text-muted); font-family: monospace;"></div>
-            <button id="download-btn-sidebar" class="btn-primary" style="padding: 0.75rem 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          <pre id="json-preview"></pre>
+          <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div id="filename-preview" style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;"></div>
+            <button id="download-btn-sidebar" class="btn-primary" style="display: flex; align-items: center; gap: 0.4rem;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
               Download
             </button>
           </div>
@@ -198,11 +160,11 @@
       </aside>
     </div>
 
-    <footer class="main-footer animate-in" style="animation-delay: 0.4s; padding: 5rem 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+    <footer class="main-footer">
       <p>
-        Vali Config Builder &bull; 
-        A companion for <a href="https://github.com/slashP/Vali" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: 600;">Vali</a> 
-        by <a href="https://github.com/slashP" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: 600;">slashP</a>
+        Vali Config Builder &bull;
+        A companion for <a href="https://github.com/slashP/Vali" target="_blank">Vali</a>
+        by <a href="https://github.com/slashP" target="_blank">slashP</a>
       </p>
     </footer>
 

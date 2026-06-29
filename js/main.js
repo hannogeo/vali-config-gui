@@ -391,6 +391,9 @@ function setupEventListeners() {
   countrySearch.oninput = (e) => renderCountryList(e.target.value);
   strategyKey.onchange = updateConfig;
   minDistance.oninput = updateConfig;
+  minDistance.onblur = () => {
+    if (minDistance.value < 25) minDistance.value = 25;
+  };
   
   const activePresets = new Set();
 
