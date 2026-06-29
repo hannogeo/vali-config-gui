@@ -1,5 +1,6 @@
 export const COUNTRIES = [
   { name: "Albania", code: "AL" },
+  { name: "Åland", code: "AX" },
   { name: "American Samoa", code: "AS" },
   { name: "Andorra", code: "AD" },
   { name: "Argentina", code: "AR" },
