@@ -56,6 +56,7 @@ export const COUNTRIES = [
   { name: "Jordan", code: "JO" },
   { name: "Kazakhstan", code: "KZ" },
   { name: "Kenya", code: "KE" },
+  { name: "Kosovo", code: "XK" },
   { name: "Kyrgyzstan", code: "KG" },
   { name: "Laos", code: "LA" },
   { name: "Latvia", code: "LV" },
